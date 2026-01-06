@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <title>My app</title>
+
+        <link rel="stylesheet" href="global.css" />
+    </head>
+
+    <body>
+        <header>
+            <nav>
+                <a href="#info">Informações</a>
+                <a href="#presenca">Confirmar presença</a>
+            </nav>
+        </header>
+        <main>
+            <h1>Site da formatura do vini</h1>
+            <article id="info">
+                <h2>Informações da festa</h2>
+                <ul>
+                    <li>Data e hora:</li>
+                    <li>Local:</li>
+                </ul>
+            </article>
+
+            <article id="presenca">
+                <h2>Confirmar sua presença</h2>
+                <form action="/" method="post">
+                    <label>
+                        Nome completo:
+                        <input name="name" type="text" required />
+                    </label>
+                    <label>
+                        Telefone para contato:
+                        <input name="phone" type="tel" required />
+                    </label>
+                    <label>
+                        Vai levar algum acompanhante? Digite o(s) nome(s)
+                        completo(s):
+                        <input name="plusOne" type="text" />
+                    </label>
+                    <label>
+                        Alguma restrição alimentar?
+                        <select name="restriction" required>
+                            <option value="">Nenuma</option>
+                            <option value="vegetariano">
+                                Sou vegetariano(a)
+                            </option>
+                            <option value="vegano">Sou vegano(a)</option>
+                            <option value="lactose">
+                                Sou intolerante à lactose
+                            </option>
+                            <option value="gluten">
+                                Sou intolerante à glúten
+                            </option>
+                            <option value="outro">Outra</option>
+                        </select>
+                    </label>
+                    <label>
+                        Possui alguma restrição que não está na lista?
+                        <input name="other" type="text" />
+                    </label>
+                    <button>Confirmar</button>
+                </form>
+            </article>
+        </main>
+
+        <footer>
+            <p>
+                Made with
+                <a
+                    href="https://ziglang.org"
+                    rel="noopener noreferer"
+                    target="_blank"
+                >
+                    Zig
+                </a>
+            </p>
+        </footer>
+    </body>
+</html>
