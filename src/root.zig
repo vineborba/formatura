@@ -61,6 +61,8 @@ fn resouces_handler(
         return;
     };
 
+    res.content_type = httpz.ContentType.forFile(path);
+
     res.body = try std.fmt.allocPrint(res.arena, "{s}", .{fileContent});
 }
 

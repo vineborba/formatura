@@ -4,79 +4,152 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <title>My app</title>
+        <title>Formatura - Vinicius de Borba</title>
 
+        <link rel="stylesheet" href="normalize.css" />
         <link rel="stylesheet" href="global.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
+            rel="stylesheet"
+        />
     </head>
 
     <body>
-        <header>
-            <nav>
-                <a href="#info">Informações</a>
-                <a href="#presenca">Confirmar presença</a>
-            </nav>
+        <header class="header">
+            <img
+                alt="Logo com nome Vinícius de Borba"
+                src="imgs/logo/logo@1x.png"
+                loading="lazy"
+                class="header__logo"
+            />
+
+            <h1 class="header__hero">Formatura Vinícius de Borba</h1>
         </header>
         <main>
-            <h1>Site da formatura do vini</h1>
-            <article id="info">
-                <h2>Informações da festa</h2>
-                <ul>
-                    <li>Data e hora:</li>
-                    <li>Local:</li>
-                </ul>
+            <article class="intro">
+                <img
+                    class="intro__picture"
+                    src="imgs/intro.png"
+                    alt="Foto com toga"
+                    loading="lazy"
+                />
+                <div class="intro__texts">
+                    <p class="intro__citation">
+                        “Se enxerguei mais longe do que os outros, foi porque me
+                        apoiei nos ombros de gigantes.”<br />
+                        - Isaac Newton
+                    </p>
+
+                    <p class="intro__invite">
+                        Com imenso prazer que te convido para celebrar este
+                        noite tão especial comigo.
+                    </p>
+                </div>
             </article>
 
-            <article id="presenca">
-                <h2>Confirmar sua presença</h2>
-                <form action="/" method="post">
-                    <label>
-                        Nome completo:
-                        <input name="name" type="text" required />
-                    </label>
-                    <label>
-                        Telefone para contato:
-                        <input name="phone" type="tel" required />
-                    </label>
-                    <label>
-                        Vai levar algum acompanhante? Digite o(s) nome(s)
-                        completo(s):
-                        <input name="plusOne" type="text" />
-                    </label>
-                    <label>
-                        Alguma restrição alimentar?
-                        <select name="restriction" required>
-                            <option value="">Nenuma</option>
-                            <option value="vegetariano">
-                                Sou vegetariano(a)
-                            </option>
-                            <option value="vegano">Sou vegano(a)</option>
-                            <option value="lactose">
-                                Sou intolerante à lactose
-                            </option>
-                            <option value="gluten">
-                                Sou intolerante à glúten
-                            </option>
-                            <option value="outro">Outra</option>
-                        </select>
-                    </label>
-                    <label>
-                        Possui alguma restrição que não está na lista?
-                        <input name="other" type="text" />
-                    </label>
-                    <button>Confirmar</button>
-                </form>
+            <article class="info">
+                <h2 class="info__title">Informações</h2>
+
+                <p class="info__date">
+                    Data: 07/03/2026<br />
+                    Horário: 19:30<br />
+                    Endereço: Rua xxxxx, bairro tal, Gravataí
+                </p>
+
+                <p class="info__dresscode">
+                    Vista-se como se sentir mais confortável!<br />
+                    <span class="info__dresscode--sub">
+                        O local possui área com grama, sugiro evitar saltos
+                        finos
+                    </span>
+                </p>
+
+                <p class="info__confirm">Confirmar presença até 27/02</p>
+
+                <p class="info__present">
+                    Sua presença é meu maior presente!<br />
+                    <span class="info__present--sub">
+                        Mas caso deseje me presentear, aceito com carinho PIX.
+                        <br />
+                        Chave: vinicius.borba@hotmail.com
+                    </span>
+                </p>
+            </article>
+
+            <article class="presence">
+                <h2 class="presence__title">Confirmação de presença</h2>
+                <p class="presence__subtitle">Conto com sua presença</p>
+                <div class="presence__container">
+                    <form action="/" method="post" class="presence__form">
+                        <label class="presence__name">
+                            Nome completo
+                            <input name="name" type="text" required />
+                        </label>
+                        <label class="presence__phone">
+                            Telefone para contato
+                            <input name="phone" type="tel" required />
+                        </label>
+                        <label class="presence__plus-one">
+                            Vai levar algum acompanhante?<br />
+                            <span
+                                >Digite o(s) nome(s), separados por
+                                vírgula</span
+                            >
+                            <input name="plusOne" type="text" />
+                        </label>
+                        <label class="presence__restriction">
+                            Alguma restrição alimentar?
+                            <select name="restriction" required>
+                                <option value=""></option>
+                                <option value="vegetariano">
+                                    Sou vegetariano(a)
+                                </option>
+                                <option value="vegano">Sou vegano(a)</option>
+                                <option value="lactose">
+                                    Sou intolerante à lactose
+                                </option>
+                                <option value="gluten">
+                                    Sou intolerante à glúten
+                                </option>
+                                <option value="outro">Outra</option>
+                            </select>
+                        </label>
+                        <label class="presence__other">
+                            Possui alguma restrição que não está na lista?
+                            <input name="other" type="text" />
+                        </label>
+                        <button class="presence__confirm">Confirmar</button>
+                    </form>
+                    <img
+                        class="konguinho"
+                        alt="Silhueta de um buldogue francês"
+                        src="imgs/kong/kong@1x.png"
+                        loading="lazy"
+                    />
+                </div>
             </article>
         </main>
 
-        <footer>
-            <p>
-                Made with
+        <footer class="footer">
+            <p class="footer__phrase">
+                Esta noite será muito especial com sua presença!
+            </p>
+            <p class="footer__built-with">
+                Built with
                 <a
                     href="https://ziglang.org"
                     rel="noopener noreferer"
                     target="_blank"
                 >
-                    Zig
+                    <img
+                        alt="Zig language logo"
+                        src="imgs/zig.svg"
+                        loading="lazy"
+                        width="16"
+                        height="16"
+                    />
                 </a>
             </p>
         </footer>

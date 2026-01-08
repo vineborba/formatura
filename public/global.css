@@ -1,0 +1,149 @@
+:root {
+    --primary-color: #213665;
+    --background-color: #efeef2;
+    --footer-color: #587a96;
+}
+
+body {
+    font-family: "Montserrat", sans-serif;
+    color: var(--primary-color);
+    background-color: var(--background-color);
+
+    width: 100dvw;
+    height: 100dvh;
+}
+
+.header {
+    padding: 1.25rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.header__hero {
+    font-size: 1.5rem;
+    line-height: 125%;
+    padding: 1rem 0px;
+}
+
+.intro {
+    max-width: 740px;
+
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+
+    margin: 0px auto;
+
+    font-size: 1rem;
+}
+
+.intro__picture {
+    height: fit-content;
+}
+
+.info {
+    padding: 1rem;
+}
+
+.info__dresscode--sub {
+    font-size: 0.8em;
+}
+
+.info__present {
+    font-size: 1rem;
+}
+
+.info__present--sub {
+    font-size: 0.8em;
+}
+
+.presence {
+    padding: 0px 1rem;
+    margin-bottom: 1rem;
+}
+
+.presence__title {
+    margin: 0;
+    /*text-align: right;*/
+}
+
+.presence__subtitle {
+    margin: 0;
+    margin-top: 0.25rem;
+    /*text-align: right;*/
+}
+
+.presence__container {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.konguinho {
+    flex: 2;
+    height: fit-content;
+    align-self: flex-end;
+}
+
+.presence__form {
+    margin-top: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    flex: 3;
+}
+
+.presence__form > label {
+    font-size: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    /*text-align: right;*/
+    width: 100%;
+}
+
+.presence__form > label > input,
+.presence__form > label > select {
+    border: none;
+    border-bottom: 1px solid var(--primary-color);
+    appearance: none;
+    background-color: transparent;
+    margin-top: 0.25rem;
+    outline: none;
+    color: var(--primary-color);
+}
+
+.presence__form > label > span {
+    font-size: 0.8em;
+}
+
+.presence__confirm {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border: 0px;
+    width: fit-content;
+    /*align-self: flex-end;*/
+    border-radius: 0.25rem;
+}
+
+.footer {
+    background-color: var(--footer-color);
+    padding: 1rem;
+
+    color: var(--background-color);
+}
+
+.footer__phrase {
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+.footer__built-with > a {
+    color: var(--background-color);
+    text-align: center;
+    vertical-align: middle;
+}
