@@ -36,6 +36,11 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize,
     });
 
+    const mvzr = b.dependency("mvzr", .{
+        .target = target,
+        .optimize = optimize,
+    });
+
     // This creates a module, which represents a collection of source files alongside
     // some compilation options, such as optimization mode and linked system libraries.
     // Zig modules are the preferred way of making Zig code available to consumers.
@@ -58,6 +63,7 @@ pub fn build(b: *std.Build) void {
             .{ .name = "httpz", .module = httpz.module("httpz") },
             .{ .name = "pg", .module = pg.module("pg") },
             .{ .name = "dotenv", .module = dotenv.module("dotenv") },
+            .{ .name = "mvzr", .module = mvzr.module("mvzr") },
         },
     });
 
@@ -102,6 +108,7 @@ pub fn build(b: *std.Build) void {
                 .{ .name = "httpz", .module = httpz.module("httpz") },
                 .{ .name = "pg", .module = pg.module("pg") },
                 .{ .name = "dotenv", .module = dotenv.module("dotenv") },
+                .{ .name = "mvzr", .module = mvzr.module("mvzr") },
             },
         }),
     });
