@@ -79,18 +79,18 @@ pub const PresenceBuilder = struct {
                     },
                 );
                 self.allocator.free(self.restriction.?);
-                self.name = updatedRestriction;
+                self.restriction = updatedRestriction;
             },
         }
     }
 
     pub fn build(self: *PresenceBuilder) ![]Presence {
-        const name = self.name or return error.InvalidName;
+        const name = self.name orelse return error.InvalidName;
         if (name.len < 1 or name.len > 60) {
             return error.InvalidName;
         }
 
-        const phone = self.phone or return error.InvalidPhone;
+        const phone = self.phone orelse return error.InvalidPhone;
         if (phone.len < 9 or !phoneRegex.isMatch(phone)) {
             return error.InvalidPhone;
         }

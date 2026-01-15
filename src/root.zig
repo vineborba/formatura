@@ -112,29 +112,58 @@ fn presence_handler(
 
     const presences = try builder.build();
 
-    var insertedRow = (try app.db.row(
+    const queryResult = app.db.row(
         \\ INSERT INTO presences (name, phone, restriction)
         \\ VALUES ($1,$2,$3)
         \\ RETURNING id
-    , .{ presences[0].name, presences[0].phone, presences[0].restriction })) orelse {
+    , .{
+        presences[0].name,
+        presences[0].phone,
+        presences[0].restriction,
+    }) catch |err| {
+        std.log.err("Failed to insert main presence in the database: {any}", .{err});
+        std.log.info("Query params name: {s} / phone: {s} / restriction: {s}", .{
+            presences[0].name,
+            presences[0].phone,
+            presences[0].restriction.?,
+        });
         res.status = 500;
         res.body = "Internal Server Errro";
         return;
     };
 
+    var insertedRow = queryResult orelse {
+        std.log.err("Query row is null!", .{});
+        res.status = 500;
+        res.body = "Internal Server Errro";
+        return;
+    };
+    defer insertedRow.deinit() catch {};
+
     const insertedId = insertedRow.get(i32, 0);
     if (presences.len > 1) {
         for (presences[1..]) |pres| {
-            _ = try app.db.exec("INSERT INTO presences (name, phone, restriction, invited_by) VALUES ($1, $2, $3, $4)", .{
+            _ = app.db.exec("INSERT INTO presences (name, phone, restriction, invited_by) VALUES ($1, $2, $3, $4)", .{
                 pres.name,
                 pres.phone,
-                pres.restriction,
+                pres.restriction.?,
                 insertedId,
-            });
+            }) catch |err| {
+                std.log.err("Failed to insert plus one presence in the database: {any}", .{err});
+                std.log.info("Query params name: {s} / phone: {s} / restriction: {s} / main: {d}", .{
+                    pres.name,
+                    pres.phone,
+                    pres.restriction.?,
+                    insertedId,
+                });
+                res.status = 500;
+                res.body = "Internal Server Errro";
+                return;
+            };
         }
     }
 
     res.status = 303;
-    res.headers.add("Location", "success");
+    res.headers.add("Location", "/success");
     return;
 }
