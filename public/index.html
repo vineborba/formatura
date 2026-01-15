@@ -8,16 +8,10 @@
 
         <link rel="stylesheet" href="normalize.css" />
         <link rel="stylesheet" href="global.css" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
-            rel="stylesheet"
-        />
     </head>
 
     <body>
-        <header class="header">
+        <header class="header max-width">
             <img
                 alt="Logo com nome Vinícius de Borba"
                 src="imgs/logo/logo@1x.png"
@@ -25,9 +19,23 @@
                 class="header__logo"
             />
 
+            <img
+                alt="Imagem abstrata no canto esquerdo"
+                src="/imgs/abstract/header1.png"
+                loading="lazy"
+                class="header__abstract--left"
+            />
+
+            <img
+                alt="Imagem abstrata no canto direito"
+                src="/imgs/abstract/header2.png"
+                loading="lazy"
+                class="header__abstract--right"
+            />
+
             <h1 class="header__hero">Formatura Vinícius de Borba</h1>
         </header>
-        <main>
+        <main class="max-width">
             <article class="intro">
                 <img
                     class="intro__picture"
@@ -125,7 +133,7 @@
                     <img
                         class="konguinho"
                         alt="Silhueta de um buldogue francês"
-                        src="imgs/kong/kong@1x.png"
+                        src="imgs/kong/kong@2x.png"
                         loading="lazy"
                     />
                 </div>
@@ -137,7 +145,7 @@
                 Esta noite será muito especial com sua presença!
             </p>
             <p class="footer__built-with">
-                Built with
+                Built with &nbsp;
                 <a
                     href="https://ziglang.org"
                     rel="noopener noreferer"
@@ -147,10 +155,11 @@
                         alt="Zig language logo"
                         src="imgs/zig.svg"
                         loading="lazy"
-                        width="16"
-                        height="16"
+                        width="20"
+                        height="20"
                     />
                 </a>
+                &nbsp; Self-hosted at home.
             </p>
         </footer>
     </body>

@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Italianno&family=Montserrat:ital@0;1&display=swap");
+
 :root {
     --primary-color: #213665;
     --background-color: #efeef2;
@@ -13,47 +15,71 @@ body {
     height: 100dvh;
 }
 
+.max-width {
+    max-width: 810px;
+    margin: 0px auto;
+
+    overflow-x: hidden;
+}
+
 .header {
-    padding: 1.25rem;
+    padding: 1rem;
 
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    background-image: url("/imgs/header/bg@3x.png");
+    background-repeat: repeat-x;
+    background-position: center;
+    background-size: cover;
+
+    position: relative;
+}
+
+.header__abstract--left {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.header__abstract--right {
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 
 .header__hero {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     line-height: 125%;
     padding: 1rem 0px;
 }
 
 .intro {
-    max-width: 740px;
-
     display: flex;
     justify-content: space-between;
     gap: 1rem;
 
-    margin: 0px auto;
-
     font-size: 1rem;
+    padding-right: 0.5rem;
 }
 
 .intro__picture {
     height: fit-content;
 }
 
+.intro__citation {
+    font-family: "Italianno", sans-serif;
+    font-size: 1.25rem;
+}
+
 .info {
-    padding: 1rem;
+    padding: 1rem 0.5rem;
 }
 
 .info__dresscode--sub {
     font-size: 0.8em;
-}
-
-.info__present {
-    font-size: 1rem;
 }
 
 .info__present--sub {
@@ -61,19 +87,17 @@ body {
 }
 
 .presence {
-    padding: 0px 1rem;
+    padding: 0px 0.5rem;
     margin-bottom: 1rem;
 }
 
 .presence__title {
     margin: 0;
-    /*text-align: right;*/
 }
 
 .presence__subtitle {
     margin: 0;
     margin-top: 0.25rem;
-    /*text-align: right;*/
 }
 
 .presence__container {
@@ -100,7 +124,6 @@ body {
     display: flex;
     flex-direction: column;
     margin-left: auto;
-    /*text-align: right;*/
     width: 100%;
 }
 
@@ -108,7 +131,6 @@ body {
 .presence__form > label > select {
     border: none;
     border-bottom: 1px solid var(--primary-color);
-    appearance: none;
     background-color: transparent;
     margin-top: 0.25rem;
     outline: none;
@@ -126,24 +148,29 @@ body {
     color: #ffffff;
     border: 0px;
     width: fit-content;
-    /*align-self: flex-end;*/
     border-radius: 0.25rem;
 }
 
 .footer {
     background-color: var(--footer-color);
-    padding: 1rem;
-
     color: var(--background-color);
+    padding: 1rem 0.5rem;
 }
 
 .footer__phrase {
     text-transform: uppercase;
+    text-align: center;
     font-size: 0.8rem;
 }
 
+.footer__built-with {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px;
+    width: 100%;
+}
+
 .footer__built-with > a {
-    color: var(--background-color);
-    text-align: center;
-    vertical-align: middle;
+    text-decoration: none;
 }
