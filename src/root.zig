@@ -4,28 +4,35 @@ const httpz = @import("httpz");
 const pg = @import("pg");
 
 const presence = @import("presence.zig");
+const env = @import("env.zig");
 
-const PORT = 8080;
+pub const Config = env.Config;
+
 const MAX_BODY_SIZE = 10 * 1024 * 1024;
 
 const ArrayList = std.ArrayList;
+const Allocator = std.mem.Allocator;
 const Presence = presence.Presence;
 const PresenceBuilder = presence.PresenceBuilder;
-
-const RequestError = error{
-    BadRequest,
-    InternalServerError,
-};
 
 const App = struct {
     db: *pg.Pool,
 };
 
-pub fn startServer() !void {
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    const allocator = gpa.allocator();
-
-    var db = try pg.Pool.init(allocator, .{ .connect = .{ .port = 5432, .host = "localhost" }, .auth = .{ .password = "postgres", .username = "postgres", .database = "postgres", .timeout = 10_000 }, .timeout = 10_000 });
+pub fn startServer(allocator: Allocator, config: Config) !void {
+    var db = try pg.Pool.init(allocator, .{
+        .connect = .{
+            .port = config.db.port,
+            .host = config.db.host,
+        },
+        .auth = .{
+            .password = config.db.pass,
+            .username = config.db.user,
+            .database = config.db.db,
+            .timeout = 10_000,
+        },
+        .timeout = 10_000,
+    });
     defer db.deinit();
 
     std.log.info("Successfully connected to the db\n", .{});
@@ -34,12 +41,19 @@ pub fn startServer() !void {
         .db = db,
     };
 
-    var server = try httpz.Server(*App).init(allocator, .{ .port = PORT, .request = .{ .max_form_count = 20 } }, &app);
+    var server = try httpz.Server(*App).init(
+        allocator,
+        .{
+            .port = config.app.port,
+            .request = .{ .max_form_count = 20 },
+        },
+        &app,
+    );
     var router = try server.router(.{});
 
     router.get("/*", resources_handler, .{});
     router.post("/", presence_handler, .{});
-    std.log.info("Starting server at http://localhost:{d}\n", .{PORT});
+    std.log.info("Starting server at http://localhost:{d}\n", .{config.app.port});
     try server.listen();
 }
 
