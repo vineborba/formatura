@@ -1,0 +1,28 @@
+.success {
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    height: 100%;
+    width: 100%;
+}
+
+.success__call-me > a {
+    color: var(--secondary-color);
+}
+
+p ~ p {
+    margin-top: 0px;
+}
+
+.success__go-back {
+    text-decoration: none;
+    appearance: none;
+
+    background-color: var(--primary-color);
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    color: var(--background-color);
+}

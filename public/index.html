@@ -6,29 +6,48 @@
 
         <title>Formatura - Vinicius de Borba</title>
 
-        <link rel="stylesheet" href="normalize.css" />
-        <link rel="stylesheet" href="global.css" />
+        <link rel="stylesheet" href="/css/normalize.css" />
+        <link rel="stylesheet" href="/css/global.css" />
+        <link rel="stylesheet" href="/css/index.css" />
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/icon/apple-touch-icon.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/icon/favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/icon/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/icon/site.webmanifest" />
     </head>
 
     <body>
         <header class="header max-width">
             <img
                 alt="Logo com nome Vinícius de Borba"
-                src="imgs/logo/logo@1x.png"
+                src="imgs/header/logo.png"
                 loading="lazy"
                 class="header__logo"
             />
 
             <img
                 alt="Imagem abstrata no canto esquerdo"
-                src="/imgs/abstract/header1.png"
+                src="imgs/header/left.png"
                 loading="lazy"
                 class="header__abstract--left"
             />
 
             <img
                 alt="Imagem abstrata no canto direito"
-                src="/imgs/abstract/header2.png"
+                src="imgs/header/right.png"
                 loading="lazy"
                 class="header__abstract--right"
             />
@@ -60,6 +79,18 @@
             <article class="info">
                 <h2 class="info__title">Informações</h2>
 
+                <picture class="info__abstract">
+                    <source
+                        media="(min-width: 480px)"
+                        srcset="imgs/abstract/body@2x.png 1x"
+                    />
+                    <img
+                        src="imgs/abstract/body.png"
+                        srcset="imgs/abstract/body.png 1x"
+                        alt="Imagem abstrata no lado direito"
+                    />
+                </picture>
+
                 <p class="info__date">
                     Data: 07/03/2026<br />
                     Horário: 19:30<br />
@@ -81,7 +112,7 @@
                     <span class="info__present--sub">
                         Mas caso deseje me presentear, aceito com carinho PIX.
                         <br />
-                        Chave: vinicius.borba@hotmail.com
+                        Chave: (51) 99500-6571
                     </span>
                 </p>
             </article>
@@ -133,7 +164,7 @@
                     <img
                         class="konguinho"
                         alt="Silhueta de um buldogue francês"
-                        src="imgs/kong/kong@2x.png"
+                        src="imgs/kong.png"
                         loading="lazy"
                     />
                 </div>
@@ -145,7 +176,7 @@
                 Esta noite será muito especial com sua presença!
             </p>
             <p class="footer__built-with">
-                Built with &nbsp;
+                Design by Shau. Built with &nbsp;
                 <a
                     href="https://ziglang.org"
                     rel="noopener noreferer"
