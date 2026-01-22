@@ -1,0 +1,73 @@
+when:
+  - event: push
+  - event: tag
+  # - event: pull_request
+
+workspace:
+  base: /workspace
+  path: src
+
+variables:
+  - &registry "registry.viniborba.com.br"
+  - &zig_version "0.15.2"
+  - &project "formatura"
+
+steps:
+  build-zig-project:
+    image: registry.viniborba.com.br/zig-builder:${ZIG_VERSION}
+    environment:
+      ZIG_VERSION: *zig_version
+      REGISTRY_HOST: *registry
+      PROJECT_NAME: *project
+    commands:
+      # Build your Zig project
+      - zig build -Doptimize=ReleaseSafe
+      # Run tests if they exist
+      # - zig build test || true
+    volumes:
+      # Map build artifacts to external storage
+      - /mnt/external/builds/${CI_REPO_NAME}:/workspace/zig-cache
+
+  build-container-image:
+    image: docker:latest
+    environment:
+      REGISTRY_HOST: *registry
+      PROJECT_NAME: *project
+      BUILD_TAG: ${CI_COMMIT_SHA:0:8}
+    commands:
+      # Build minimal OCI container with your Zig binary
+      - docker build --rm -t ${REGISTRY_HOST}/${PROJECT_NAME}:${BUILD_TAG} .
+      - docker build --rm -t ${REGISTRY_HOST}/${PROJECT_NAME}:latest .
+    volumes:
+      - /run/podman/podman.sock:/var/run/docker.sock
+    depends_on:
+      - build-zig-project
+    when:
+      - event: [push, tag]
+
+  push-container-image:
+    image: docker:latest
+    environment:
+      REGISTRY_HOST: *registry
+      PROJECT_NAME: your-zig-project
+      BUILD_TAG: ${CI_COMMIT_SHA:0:8}
+    commands:
+      - docker push ${REGISTRY_HOST}/${PROJECT_NAME}:${BUILD_TAG}
+      - docker push ${REGISTRY_HOST}/${PROJECT_NAME}:latest
+    volumes:
+      - /run/podman/podman.sock:/var/run/docker.sock
+    depends_on:
+      - build-container-image
+    when:
+      - event: push
+        branch: main
+      - event: tag
+
+  # Scan image for vulnerabilities (optional but recommended)
+  # security-scan:
+  #   image: alpine:latest
+  #   commands:
+  #     - echo "Image scan would run here (e.g., with Grype or Trivy)"
+  #     - echo "${REGISTRY_HOST}/${PROJECT_NAME}:${CI_COMMIT_SHA:0:8}"
+  #   when:
+  #     - event: tag

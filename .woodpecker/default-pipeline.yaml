@@ -1,0 +1,63 @@
+# Generic/Multi-Language Project Pipeline for Woodpecker 3.13
+# Place in: .woodpecker/default.yaml
+
+# Define workspace where code is cloned
+workspace:
+  base: /workspace
+  path: src
+
+# Pipeline steps
+steps:
+  # Clone step is automatic, but you can customize if needed
+  
+  build-image:
+    image: docker:latest
+    environment:
+      REGISTRY_HOST: registry.viniborba.com.br
+      IMAGE_NAME: your-project-name
+      IMAGE_TAG: latest
+    commands:
+      # Build the image using Podman-compatible Docker daemon
+      - docker build --rm -t ${REGISTRY_HOST}/${IMAGE_NAME}:${IMAGE_TAG} .
+      - docker build --rm -t ${REGISTRY_HOST}/${IMAGE_NAME}:${CI_COMMIT_SHA:0:8} .
+    volumes:
+      # Access to Podman socket for building (requires privileged agent)
+      - /run/podman/podman.sock:/var/run/docker.sock
+    when:
+      - event: [push, tag]
+
+  push-image:
+    image: docker:latest
+    environment:
+      REGISTRY_HOST: registry.viniborba.com.br
+      IMAGE_NAME: your-project-name
+      IMAGE_TAG: latest
+    commands:
+      # Push images to registry
+      # Authentication is handled by Woodpecker from registry credentials
+      - docker push ${REGISTRY_HOST}/${IMAGE_NAME}:${IMAGE_TAG}
+      - docker push ${REGISTRY_HOST}/${IMAGE_NAME}:${CI_COMMIT_SHA:0:8}
+    volumes:
+      - /run/podman/podman.sock:/var/run/docker.sock
+    depends_on:
+      - build-image
+    when:
+      - event: push
+        branch: main
+      - event: tag
+
+  # Optional: Notify on failure
+  notify-failure:
+    image: alpine:latest
+    commands:
+      - echo "Pipeline failed for ${CI_REPO} on ${CI_COMMIT_BRANCH}"
+    when:
+      - status: [failure]
+
+# Optional: Define clone behavior
+# clone:
+#   git:
+#     image: woodpeckerci/plugin-git:latest
+
+# Secrets can be configured in Woodpecker UI
+# They're injected as environment variables automatically

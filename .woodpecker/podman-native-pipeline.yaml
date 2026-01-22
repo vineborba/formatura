@@ -1,0 +1,52 @@
+when:
+  - event: push
+  - event: tag
+
+workspace:
+  base: /workspace
+  path: src
+
+steps:
+  build-with-podman:
+    # Use podman image (or your custom builder image)
+    image: podman:latest
+    privileged: true # Required for rootless Podman in container
+    environment:
+      REGISTRY_HOST: registry.viniborba.com.br
+      IMAGE_NAME: formatura
+      IMAGE_TAG: ${CI_COMMIT_SHA:0:8}
+    commands:
+      # Initialize Podman storage if needed
+      - podman version || true
+      # Build using Podman
+      - podman build --rm -t ${REGISTRY_HOST}/${IMAGE_NAME}:${IMAGE_TAG} .
+      - podman build --rm -t ${REGISTRY_HOST}/${IMAGE_NAME}:latest .
+      # Tag for registry
+      - podman tag ${REGISTRY_HOST}/${IMAGE_NAME}:${IMAGE_TAG} ${REGISTRY_HOST}/${IMAGE_NAME}:latest
+    volumes:
+      # Optional: persist Podman storage between builds
+      - /mnt/external/podman-storage:/var/lib/containers
+
+  push-with-podman:
+    image: podman:latest
+    privileged: true
+    environment:
+      REGISTRY_HOST: registry.viniborba.com.br
+      IMAGE_NAME: formatura
+      IMAGE_TAG: ${CI_COMMIT_SHA:0:8}
+      REGISTRY_USERNAME:
+        from_secret: REGISTRY_USERNAME
+      REGISTRY_PASSWORD:
+        from_secret: REGISTRY_PASSWORD
+    commands:
+      # Login to registry (credentials from Woodpecker secrets)
+      - echo "${REGISTRY_PASSWORD}" | podman login -u ${REGISTRY_USERNAME} --password-stdin ${REGISTRY_HOST}
+      # Push images
+      - podman push ${REGISTRY_HOST}/${IMAGE_NAME}:${IMAGE_TAG}
+      - podman push ${REGISTRY_HOST}/${IMAGE_NAME}:latest
+    depends_on:
+      - build-with-podman
+    when:
+      - event: push
+        branch: main
+      - event: tag
