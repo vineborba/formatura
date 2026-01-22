@@ -5,6 +5,7 @@ const Allocator = std.mem.Allocator;
 
 const AppConfig = struct {
     port: u16,
+    host: []const u8,
 
     const Self = @This();
 
@@ -15,8 +16,11 @@ const AppConfig = struct {
             10,
         );
 
+        const host = env.getWithDefault("APP__HOST", "127.0.0.1");
+
         return Self{
             .port = port,
+            .host = host,
         };
     }
 };

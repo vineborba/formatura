@@ -45,6 +45,7 @@ pub fn startServer(allocator: Allocator, config: Config) !void {
         allocator,
         .{
             .port = config.app.port,
+            .address = config.app.host,
             .request = .{ .max_form_count = 20 },
         },
         &app,
@@ -53,7 +54,7 @@ pub fn startServer(allocator: Allocator, config: Config) !void {
 
     router.get("/*", resources_handler, .{});
     router.post("/", presence_handler, .{});
-    std.log.info("Starting server at http://localhost:{d}\n", .{config.app.port});
+    std.log.info("Starting server at http://{s}:{d}\n", .{ config.app.host, config.app.port });
     try server.listen();
 }
 

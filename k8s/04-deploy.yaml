@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: formatura
+  namespace: formatura
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: formatura
+  template:
+    metadata:
+      labels:
+        app: formatura
+    spec:
+      containers:
+        - name: formatura
+          image: registry.viniborba.com.br/formatura:latest
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: formatura-config
+            - secretRef:
+                name: formatura-secrets
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"

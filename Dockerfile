@@ -1,5 +1,5 @@
-FROM alpine:latest
+FROM scratch
 WORKDIR /app
-COPY zig-cache/zig-out/bin/formatura /app
-COPY zig-cache/public/ /app/public/
-ENTRYPOINT ["formatura"]
+COPY formatura /app/formatura
+COPY ./public /app/public/
+ENTRYPOINT ["./formatura"]

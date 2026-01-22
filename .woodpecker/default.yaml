@@ -1,0 +1,36 @@
+workspace:
+  base: /workspace
+  path: src
+
+steps:
+  build-binary:
+    image: registry.viniborba.com.br/zig-builder:0.15.2
+    volumes:
+      - woodpecker-cache:/woodpecker/src/cache
+    commands:
+      - zig build -Doptimize=ReleaseSafe -Dtarget=x86_64-linux-musl
+      - cp ./zig-out/bin/formatura /woodpecker/src/cache/formatura
+
+  build-and-push-image:
+    image: quay.io/buildah/stable:latest
+    volumes:
+      - woodpecker-cache:/woodpecker/src/cache
+    backend_options:
+      kubernetes:
+        securityContext:
+          appArmorProfile:
+            type: Unconfined
+    environment:
+      BUILDAH_ISOLATION: chroot
+      STORAGE_DRIVER: vfs
+      REGISTRY_HOST: registry.viniborba.com.br
+      IMAGE_NAME: formatura
+      REGISTRY_USERNAME:
+        from_secret: REGISTRY_USERNAME
+      REGISTRY_PASSWORD:
+        from_secret: REGISTRY_PASSWORD
+    commands:
+      - cp /woodpecker/src/cache/formatura ./formatura
+      - buildah login -u "$REGISTRY_USERNAME" -p "$REGISTRY_PASSWORD" "$REGISTRY_HOST"
+      - buildah build --storage-driver=vfs -t "$REGISTRY_HOST/$IMAGE_NAME:latest"
+      - buildah push --format oci "$REGISTRY_HOST/$IMAGE_NAME:latest"

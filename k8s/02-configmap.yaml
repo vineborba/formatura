@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: formatura-config
+  namespace: formatura
+data:
+  APP__PORT: "8080"
+  APP__HOST: "0.0.0.0"
+  DB__HOST: "postgres.postgres.svc.cluster.local"
+  DB__PORT: "5432"
+  DB__DB: "formatura"
+  DB__USER: "formatura"

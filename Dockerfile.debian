@@ -1,0 +1,25 @@
+FROM debian:bookworm-slim as base
+ARG ZIG_VERSION=0.15.2
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    xz-utils \
+    ca-certificates \
+    curl \
+    && mkdir -p /usr/local/zig \
+    && curl -fsSL "https://ziglang.org/download/${ZIG_VERSION}/zig-x86_64-linux-${ZIG_VERSION}.tar.xz" \
+    | tar -xJ --strip-components=1 -C /usr/local/zig \
+    && ln -sf /usr/local/zig/zig /usr/local/bin/zig \
+    && zig version \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+FROM base AS builder
+WORKDIR /build
+COPY src/ ./src
+COPY build* ./
+RUN zig build -Doptimize=ReleaseSafe -Dtarget=x86_64-linux-musl
+
+FROM base
+WORKDIR /app
+COPY --from=builder /build/zig-out/bin/formatura /app
+COPY ./public/ /app/public/
+ENTRYPOINT ["./formatura"]
